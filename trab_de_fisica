@@ -1,0 +1,50 @@
+vel1= float(125)
+ang= int(30)
+
+import math
+from math import sqrt
+
+vx= math.cos(math.radians(ang))*vel1
+vy= math.sin(math.radians(ang))*vel1
+
+tempo = vy/5
+
+tempoAltm= vy/10
+
+distMax = vx*tempo
+
+altMax = float(vy*(tempoAltm) -5*((tempoAltm)**2))
+
+import matplotlib.pyplot as grafico
+import numpy as np
+
+pt= (6*altMax)/7
+
+eixox= []
+eixoy=[]
+zero = []
+
+for x in np.arange(0, distMax , 0.03):
+    y= - 5*((x/vx)**2) + vy*(x/vx)
+    eixoy.append(y)
+    eixox.append(x)
+    zero.append(0.0)
+grafico.plot(eixox,eixoy,color="blue")
+grafico.plot(eixox,zero,color="black")
+grafico.title('Gráfico - Lançamento')
+grafico.annotate('Dist. max: {:.2f}m \nAlt. max: {:.2f}m \nTempo: {:.1f}s'
+                 .format(distMax, altMax, tempo),
+                 xy = (0, pt),
+                 xytext=(0, pt))
+grafico.xlabel('Distância(m)')
+grafico.ylabel('Altura (m)')
+
+for dt in np.arange(1, tempo, 1):
+	cx=[]
+	cy=[]
+	dx= vx*dt
+	dy= vy*dt - 5*(dt**2)
+	cx.append(dx)
+	cy.append(dy)
+	grafico.scatter(cx, cy)
+grafico.show()
